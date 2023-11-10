@@ -1,0 +1,8 @@
+<?xml version = '1.0' encoding = 'UTF-8'?>
+<OSDM_Design class="oracle.dbtools.crest.model.design.Design" name="basedatos" id="C02B787A-4E1B-3CEF-8D29-858DD46EBA3A" version="3.5">
+<createdBy>antho</createdBy>
+<createdTime>2023-07-01 00:48:22 UTC</createdTime>
+<ownerDesignName>basedatos</ownerDesignName>
+<capitalNames>false</capitalNames>
+<designId>C02B787A-4E1B-3CEF-8D29-858DD46EBA3A</designId>
+</OSDM_Design>
