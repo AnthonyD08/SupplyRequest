@@ -1,0 +1,196 @@
+﻿@model IEnumerable<WebApi.Models.User>
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.5.0/Chart.min.js"></script>
+<main class="col-md-9 ms-sm-auto col-lg-10 px-md-4">
+    <br />
+    <h2>Dashboard Usuarios - Sysadmin</h2>
+
+    <div class="container-fluid">
+        <br />
+        <div style="width:100%; margin:0 auto;">
+            <button id='btnAbrirDialogAgregarUsuario' class="btn btn-primary" style="background-color: #1A2DF3; width:10%">Agregar Usuario</button>
+            <br /><br />
+            <table class="display" id="UserTable" style="width:100%">
+                <thead>
+                    <tr>
+                        <th>User ID</th>
+                        <th>Name</th>
+                        <th>Username</th>
+                        <th>Email</th>
+                        <th>Role ID</th>
+                        <th>Boss ID</th>
+                        <th>Accountant Type</th>
+                        <th>Active</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var user in Model)
+                    {
+                        <tr>
+                            <td id='UserIDParam'>
+                                @Html.DisplayFor(modelItem => user.UserId)
+                            </td>
+                            <td id='NameParam'>
+                                @Html.DisplayFor(modelItem => user.Name)
+                            </td>
+                            <td id='UsernameParam'>
+                                @Html.DisplayFor(modelItem => user.Username)
+                            </td>
+                            <td id='EmailParam'>
+                                @Html.DisplayFor(modelItem => user.Email)
+                            </td>
+                            <td id='RoleIdParam'>
+                                @Html.DisplayFor(modelItem => user.RoleId)
+                            </td>
+                            <td id='BossIdParam'>
+                                @Html.DisplayFor(modelItem => user.BossId)
+                            </td>
+                            <td id='AccountantTypeParam'>
+                                @Html.DisplayFor(modelItem => user.AccountantType)
+                            </td>
+                            <td id='ActiveParam'>
+                                @Html.DisplayFor(modelItem => user.Active)
+                            </td>
+
+                            <td style="align-items:center">
+                                <a name="btnEditarUser" data-id="@user.UserId" style="color: #1A2DF3"><i class="fa fa-edit"></i></a>
+                            </td>
+                        </tr>
+                    }
+
+                </tbody>
+            </table>
+        </div>
+    </div>
+    <div id="modalAgregarUser" class="modal fade" role="dialog">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h4 class="modal-title">Agregar Usuario</h4>
+                </div>
+                <br />
+                <div style="width: 80%; margin-left: 10%" class="modal-body">
+                    <div>
+                        <label for="exampleInputEmail1">User ID:</label>
+                        <input class="form-control" id="AgregarUserUserId" disabled placeholder="Sin asignar">
+                    </div>
+                    <div style="margin-top: 3%">
+                        <label for="exampleInputEmail1">Name:</label>
+                        <input class="form-control" id="AgregarUserNombre">
+                    </div>
+                    <div style="margin-top: 3%">
+                        <label for="exampleInputEmail1">Username:</label>
+                        <input class="form-control" id="AgregarUserUsername">
+                    </div>
+                    <div style="margin-top: 3%">
+                        <label for="exampleInputEmail1">Email:</label>
+                        <input class="form-control" id="AgregarUserEmail">
+                    </div>
+                    <div style="margin-top: 3%">
+                        <label for="exampleInputEmail1">Password:</label>
+                        <input class="form-control" id="AgregarUserPassword">
+                    </div>
+                    <div style="margin-top: 3%">
+                        <label for="exampleInputEmail1">Role ID:</label>
+                        <input class="form-control" id="AgregarUserRoleId" type="number" oninput="filterInputNum(event)">
+                    </div>
+                    <div style="margin-top: 3%">
+                        <label for="exampleInputEmail1">Boss ID:</label>
+                        <input class="form-control" id="AgregarUserBossId" type="number" oninput="filterInputNum(event)">
+                    </div>
+                    <div style="margin-top: 3%">
+                        <label for="exampleInputEmail1">Accountant Type:</label>
+                        <input class="form-control" id="AgregarUserAccountantType" type="number" oninput="filterInputNum(event)">
+                    </div>
+                    <div style="margin-top: 3%">
+                        <label for="exampleInputEmail1">Active:</label>
+                        <input id="AgregarUserActive" type="checkbox">
+                    </div>
+                    <br />
+                </div>
+                <br />
+                <div class="modal-footer">
+                    <div>
+                        <button id='btnCancelarUsuario' type="button" class="btn btn-danger" data-dismiss="modal">Cerrar</button>
+                        <button id='btnAgregarUsuario' type="button" class="btn btn-primary" style="background-color: #1A2DF3; margin-left: 5px">Aceptar</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div id="modalVentanaExitosa" class="modal fade" role="dialog">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <br />
+                <div style="width: 80%; margin-left: 10%" class="modal-body">
+                    <p>Acción realizada exitosamente</p>
+                </div>
+                <br />
+                <div class="modal-footer">
+                    <button id='btnMensajeExitoso' type="button" class="btn btn-primary" style="background-color: #1A2DF3">Aceptar</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div id="modalVentanaFallida" class="modal fade" role="dialog">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <br />
+                <div style="width: 80%; margin-left: 10%" class="modal-body">
+                    <p>No se pudo realizar la acción</p>
+                </div>
+                <br />
+                <div class="modal-footer">
+                    <button id='btnMensajeFallido' type="button" class="btn btn-primary" style="background-color: #1A2DF3">Aceptar</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div>
+        <div id="canvas-holder" style="width:40%">
+            <canvas id="vistas-chart"></canvas>
+        </div>
+        <script>
+            new Chart(document.getElementById("vistas-chart"), {
+                type: 'pie',
+                data: {
+                    labels: @Html.Raw(ViewBag.Etiquetas),
+                    datasets: [{
+                        label: "Request por estado",
+                        backgroundColor: @Html.Raw(ViewBag.Colores) ,
+                        data: @Html.Raw(@ViewBag.Valores)
+                                                                                                            }]
+                },
+                options: {
+                    title: {
+                        display: true,
+                        text: 'Request por estado'
+                    }
+                }
+            });
+        </script>
+    </div>
+
+    <link href="Content/font-awesome.css" rel="stylesheet" />
+    <link href="Content/font-awesome.min.css" rel="stylesheet" />
+
+    @section scripts
+        {
+        <script src="~/js/Admin.js"></script>
+        <script type="text/javascript" src="https://cdn.datatables.net/1.10.12/js/jquery.dataTables.min.js"></script>
+        <script type="text/javascript" src="https://cdn.datatables.net/buttons/1.2.2/js/dataTables.buttons.min.js"></script>
+        <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jszip/2.5.0/jszip.min.js"></script>
+        <script type="text/javascript" src="https://cdn.rawgit.com/bpampuch/pdfmake/0.1.18/build/pdfmake.min.js"></script>
+        <script type="text/javascript" src="https://cdn.rawgit.com/bpampuch/pdfmake/0.1.18/build/vfs_fonts.js"></script>
+        <script type="text/javascript" src="https://cdn.datatables.net/buttons/1.2.2/js/buttons.html5.min.js"></script>
+
+    }</div>
+</main>
+<script src="https://cdn.jsdelivr.net/npm/feather-icons@4.28.0/dist/feather.min.js" integrity="sha384-uO3SXW5IuS1ZpFPKugNNWqTZRRglnUJK6UAZ/gxOX80nxEkN9NcGZTftn6RzhGWE" crossorigin="anonymous"></script><script src="https://cdn.jsdelivr.net/npm/chart.js@2.9.4/dist/Chart.min.js" integrity="sha384-zNy6FEbO50N+Cg5wap8IKA4M/ZnLJgzc6w2NqACZaK0u0FXfOWRRJOnQtpZun8ha" crossorigin="anonymous"></script>

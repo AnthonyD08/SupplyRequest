@@ -1,0 +1,89 @@
+﻿@model IEnumerable<WebApi.Models.RequestStatus>
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.5.0/Chart.min.js"></script>
+<main class="col-md-9 ms-sm-auto col-lg-10 px-md-4">
+    <br />
+    <h2> Request Status </h2>
+    
+    <div class="container-fluid">
+        <br />
+        <div style="width:100%; margin:0 auto;">
+            <br /><br />
+            <table class="display" id="RequestStatusTabla" style="width:100%">
+                <thead>
+                    <tr>
+                        <th>Status ID</th>
+                        <th>Request ID</th>
+                        <th>Date</th>
+                        <th>Time</th>
+                        <th>Description</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var item in Model)
+                    {
+                        <tr>
+                            <td id='StatusIDRequestStatusParam'>
+                                @Html.DisplayFor(modelItem => item.StatusId)
+                            </td>
+                            <td id='RequestStatusIDRequestParam'>
+                                @Html.DisplayFor(modelItem => item.RequestId)
+                            </td>
+                            <td id='DateRequestStatusParam'>
+                                @Html.DisplayFor(modelItem => item.Date)
+                            </td>
+                            <td id='TimeRequestStatusParam'>
+                                @Html.DisplayFor(modelItem => item.FormattedTime)
+                            </td>
+                            <td id="DescriptionRequestStatusParam">
+                                @Html.DisplayFor(modelItem => item.Description)
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <div>
+        <div id="canvas-holder" style="width:40%">
+            <canvas id="vistas-chart"></canvas>
+        </div>
+        <script>
+            new Chart(document.getElementById("vistas-chart"), {
+                type: 'pie',
+                data: {
+                    labels: @Html.Raw(ViewBag.Etiquetas),
+                    datasets: [{
+                        label: "RequestStatus por Description",
+                        backgroundColor: @Html.Raw(ViewBag.Colores) ,
+                        data: @Html.Raw(@ViewBag.Valores)
+                                                                        }]
+                },
+                options: {
+                    title: {
+                        display: true,
+                        text: 'RequestStatus por Description'
+                    }
+                }
+            });
+        </script>
+    </div>
+    <link href="Content/font-awesome.css" rel="stylesheet" />
+    <link href="Content/font-awesome.min.css" rel="stylesheet" />
+    @section scripts
+        {
+        <script src="~/js/RequestStatus.js"></script>
+        <script type="text/javascript" src="https://cdn.datatables.net/1.10.12/js/jquery.dataTables.min.js"></script>
+        <script type="text/javascript" src="https://cdn.datatables.net/buttons/1.2.2/js/dataTables.buttons.min.js"></script>
+        <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jszip/2.5.0/jszip.min.js"></script>
+        <script type="text/javascript" src="https://cdn.rawgit.com/bpampuch/pdfmake/0.1.18/build/pdfmake.min.js"></script>
+        <script type="text/javascript" src="https://cdn.rawgit.com/bpampuch/pdfmake/0.1.18/build/vfs_fonts.js"></script>
+        <script type="text/javascript" src="https://cdn.datatables.net/buttons/1.2.2/js/buttons.html5.min.js"></script>
+
+    }
+</main>
+<script src="https://cdn.jsdelivr.net/npm/feather-icons@4.28.0/dist/feather.min.js" integrity="sha384-uO3SXW5IuS1ZpFPKugNNWqTZRRglnUJK6UAZ/gxOX80nxEkN9NcGZTftn6RzhGWE" crossorigin="anonymous"></script><script src="https://cdn.jsdelivr.net/npm/chart.js@2.9.4/dist/Chart.min.js" integrity="sha384-zNy6FEbO50N+Cg5wap8IKA4M/ZnLJgzc6w2NqACZaK0u0FXfOWRRJOnQtpZun8ha" crossorigin="anonymous"></script>

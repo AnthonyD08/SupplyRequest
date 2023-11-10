@@ -1,0 +1,69 @@
+﻿@model WebApi.Models.User
+@{
+    Layout = "~/Views/Shared/_ExternalLayout.cshtml";
+}
+<section class="vh-100 gradient-custom-2">
+    <div class="container py-5 h-100">
+        <div class="row justify-content-center align-items-center h-100">
+            <div class="col-12 col-lg-9 col-xl-7">
+                <div class="card shadow-2-strong card-registration" style="border-radius: 15px;">
+                    <div class="card-body p-4 p-md-5">
+                        <h3 class="mb-4 pb-2 pb-md-0 mb-md-5">Registro</h3>
+
+                        @using (Html.BeginForm("Authenticate", "User", FormMethod.Post))
+                                {
+                        <form>
+                            <div class="row">
+                                <div class="col-md-12 mb-4">
+
+                                    <div class="form-outline">
+                                            @Html.TextBoxFor(model => model.Name, new { placeholder="NombreCompleto" , @class = "form-control" })
+                                            
+                                    </div>
+
+                                </div>
+                               
+                            </div>
+
+                            <div class="row">
+                                <div class="col-md-6 mb-4">
+                                    <div class="form-outline">
+                                            @Html.TextBoxFor(model => model.Username, new { placeholder="Username" , @class = "form-control" })
+                                           
+                                    </div>
+
+                                </div>
+                            </div>
+
+                            <div class="row">
+                                <div class="col-md-6 mb-4 pb-2">
+
+                                    <div class="form-outline">
+                                            @Html.TextBoxFor(model => model.Email, new { placeholder="Correo electrónico" , @class = "form-control" })
+                                           
+                                    </div>
+
+                                </div>
+                                
+                                <div class="col-md-6 mb-4 pb-2">
+                                    <div class="form-outline">
+                                            @Html.PasswordFor(model => model.Password, new { placeholder="Password" , @class = "form-control" })
+                                       
+                                    </div>
+                                </div>
+
+                                
+
+                            </div>
+                            <div class="mt-4 pt-2">
+                                <input class="btn btn-primary" type="submit" value="Registrarme" />
+                            </div>
+
+                        </form>
+                      }
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
